@@ -9,12 +9,8 @@ else
     # Keep direct local script execution useful during development.
     base_dir=$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd)
 fi
-mkdir -p /home/container/user /home/container/logs
+mkdir -p /home/container/user /home/container/logs /home/container/prisma /home/container/.prisma
 cd "$base_dir"
-
-[ -e user ] || ln -s /home/container/user user
-[ -e logs ] || ln -s /home/container/logs logs
-[ -L .env ] || [ -e .env ] || ln -s /home/container/.env .env
 
 # Keep the established lifecycle: create configuration, select/copy the Prisma
 # provider schema, generate Prisma, deploy non-destructive migrations, start.

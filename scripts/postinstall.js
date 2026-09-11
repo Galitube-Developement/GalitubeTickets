@@ -54,15 +54,14 @@ if (!providers.includes(provider)) throw new Error(`DB_PROVIDER must be one of: 
 log(`provider=${provider}`);
 log(`copying ${provider} schema & migrations`);
 
-if (fs.existsSync(pathify('./prisma'))) {
-	fs.rmSync('./prisma', {
-		force: true,
-		recursive: true,
-	});
-} else {
-	fs.mkdirSync(pathify('./prisma'));
-}
-fs.copySync(pathify(`./db/${provider}`), pathify('./prisma')); // copy schema & migrations
+// Container roots can be read-only under Pterodactyl/Pelican. Keep the
+// selected runtime schema in their writable server directory instead of /app.
+const prismaDir = process.env.PRISMA_SCHEMA_DIR
+	? resolve(process.env.PRISMA_SCHEMA_DIR)
+	: pathify('./prisma');
+fs.emptyDirSync(prismaDir);
+fs.copySync(pathify(`./db/${provider}`), prismaDir); // copy schema & migrations
+const schema = join(prismaDir, 'schema.prisma');
 
 if (provider === 'sqlite') fs.ensureDirSync(pathify('./user'));
 
@@ -72,8 +71,8 @@ if (provider === 'sqlite' && !process.env.DB_CONNECTION_URL) {
 }
 
 (async () => {
-	await npx('prisma generate');
-	await npx('prisma migrate deploy');
+	await npx(`prisma generate --schema "${schema}"`);
+	await npx(`prisma migrate deploy --schema "${schema}"`);
 })().catch(error => {
 	console.error(error);
 	process.exitCode = 1;

@@ -43,12 +43,19 @@ RUN apk add --no-cache ca-certificates curl git openssl libc6-compat \
 
 WORKDIR /app
 COPY --from=builder --chown=container:container /app /app
-RUN chmod 755 /app/scripts/start.sh
+RUN chmod 755 /app/scripts/start.sh \
+    && rm -rf /app/user /app/logs /app/.env /app/node_modules/.prisma \
+    && ln -s /home/container/user /app/user \
+    && ln -s /home/container/logs /app/logs \
+    && ln -s /home/container/.env /app/.env \
+    && ln -s /home/container/.prisma /app/node_modules/.prisma
 
 ENV NODE_ENV=production \
     HTTP_HOST=0.0.0.0 \
     DOCKER=true \
-    AUTO_UPDATE=false
+    AUTO_UPDATE=false \
+    SKIP_WEB_BUILD=true \
+    PRISMA_SCHEMA_DIR=/home/container/prisma
 
 VOLUME ["/home/container/user", "/home/container/logs"]
 USER container
