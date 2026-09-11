@@ -2,13 +2,19 @@
 
 # Build the application from this checkout. The production dependency install is
 # intentionally lockfile-based so published images are reproducible.
+FROM node:22-bookworm-slim AS node-toolchain
+
 FROM oven/bun:1 AS builder
 WORKDIR /app
 
 # The repository is npm-lockfile based (there is no bun.lock in this fork).
-# Install npm and Git in the builder only; Git is needed by an optional package.
-RUN apt-get update && apt-get install -y --no-install-recommends git npm \
-    && rm -rf /var/lib/apt/lists/*
+# Copy the official Node 22 toolchain because Debian's npm package currently
+# pulls Node 20, while the web dependencies require Node 22 or newer.
+COPY --from=node-toolchain /usr/local/ /usr/local/
+RUN apt-get update && apt-get install -y --no-install-recommends git ca-certificates \
+    && rm -rf /var/lib/apt/lists/* \
+    && node --version \
+    && npm --version
 COPY package.json package-lock.json ./
 COPY LICENSE NOTICE.md ./
 RUN npm ci --omit=dev --ignore-scripts
