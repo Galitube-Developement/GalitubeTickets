@@ -46,10 +46,11 @@ COPY --chown=container:container scripts ./scripts
 COPY --chown=container:container src ./src
 COPY --from=builder --chown=container:container /app/web ./web
 RUN chmod 755 /app/scripts/start.sh \
-    && rm -rf /app/user /app/logs /app/.env /app/node_modules/.prisma \
+    && rm -rf /app/user /app/logs /app/.env /app/prisma /app/node_modules/.prisma \
     && ln -s /home/container/user /app/user \
     && ln -s /home/container/logs /app/logs \
     && ln -s /home/container/.env /app/.env \
+    && ln -s /home/container/prisma /app/prisma \
     && ln -s /home/container/.prisma /app/node_modules/.prisma
 
 ENV NODE_ENV=production \
@@ -57,7 +58,9 @@ ENV NODE_ENV=production \
     DOCKER=true \
     AUTO_UPDATE=false \
     SKIP_WEB_BUILD=true \
-    PRISMA_SCHEMA_DIR=/home/container/prisma
+    PRISMA_SCHEMA_DIR=/home/container/prisma \
+    PRISMA_SCHEMA_PATH=/app/prisma/schema.prisma \
+    PRISMA_GENERATE_SKIP_AUTOINSTALL=true
 
 VOLUME ["/home/container/user", "/home/container/logs"]
 USER container

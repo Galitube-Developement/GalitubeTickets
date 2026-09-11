@@ -61,7 +61,11 @@ const prismaDir = process.env.PRISMA_SCHEMA_DIR
 	: pathify('./prisma');
 fs.emptyDirSync(prismaDir);
 fs.copySync(pathify(`./db/${provider}`), prismaDir); // copy schema & migrations
-const schema = join(prismaDir, 'schema.prisma');
+// The schema may be exposed through /app/prisma so Prisma can resolve the
+// already-installed packages while the real files remain on writable storage.
+const schema = process.env.PRISMA_SCHEMA_PATH
+	? resolve(process.env.PRISMA_SCHEMA_PATH)
+	: join(prismaDir, 'schema.prisma');
 
 if (provider === 'sqlite') fs.ensureDirSync(pathify('./user'));
 
