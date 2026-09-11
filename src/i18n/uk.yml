@@ -1,0 +1,489 @@
+buttons:
+  accept_close_request:
+    emoji: ✅
+    text: Прийняти
+  cancel:
+    emoji: ➖
+    text: Скасувати
+  claim:
+    emoji: 🙌
+    text: Взяти
+  close:
+    emoji: ✖️
+    text: Закрити
+  confirm_open:
+    emoji: ✅
+    text: Створити запит
+  create:
+    emoji: 🎫
+    text: Створити запит
+  edit:
+    emoji: ✏️
+    text: Редагувати
+  reject_close_request:
+    emoji: ✖️
+    text: Відхилити
+  unclaim:
+    emoji: ♻️
+    text: Віддати
+  transcript:
+    emoji: 📄
+commands:
+  message:
+    create:
+      name: Створити запит з повідомлення
+    pin:
+      name: Закріпити повідомлення
+      not_pinnable:
+        description: |
+          Це повідомлення не можна закріпити.
+          Будь ласка, зверніться до адміністратора для перевірки прав бота.
+        title: ❌ Помилка
+      not_ticket:
+        description: Ви можете закріплювати повідомлення тільки в запитах.
+        title: ❌ Це не канал запитів
+      pinned:
+        description: Повідомлення було закріплене.
+        title: ✅ Повідомлення закріплено
+  slash:
+    add:
+      added: ➡️ {added} було додано {by}.
+      description: Додати учасника до запити
+      name: add
+      not_staff:
+        description: Тільки адміністратори можуть додавати учасників до чужих
+          запитів.
+        title: ❌ Помилка
+      options:
+        member:
+          description: Учасник, якого треба додати до запита
+          name: member
+        ticket:
+          description: Запит, до якого треба додати учасника
+          name: ticket
+      success:
+        description: "{member} було додано до {ticket}."
+        title: ✅ Додано
+    claim:
+      description: Забрати запит
+      name: claim
+      not_staff:
+        description: Тільки адміністрація може забирати запити.
+        title: ❌ Помилка
+    close:
+      description: Запит на закриття запиту
+      invalid_time:
+        description: "`{input}` не є правильним форматом часу."
+        title: ❌ Неправильний формат
+      name: close
+      options:
+        reason:
+          description: Причина закриття запиту
+          name: reason
+    force-close:
+      closed_one:
+        description: Канал буде видалено через кілька секунд.
+        title: ✅ Запит закрита
+      confirm_multiple:
+        description: >
+          Ви збираєтеся закрити **{count}** запитів, які були неактивними
+          протягом `{time}`:
+
+          {tickets}
+        title: ❓ Ви впевнені?
+      confirmed_multiple:
+        description: Канали будуть видалені через кілька секунд.
+        title:
+        - ✅ Закриття %d запит
+        - ✅ Закриття %d запитів
+      description: Примусово закрити запит
+      name: force-close
+      no_tickets:
+        description: >-
+          Немає відкритих запитів, які були неактивними протягом
+          `{time}`.
+        title: ❌ Немає запитів
+      not_staff:
+        description: Тільки адміністратор може примусово закривати запити.
+        title: ❌ Помилка
+      options:
+        category:
+          description: Закрити всі запити в вказаній категорії (має бути
+            використано з `time`)
+          name: category
+        reason:
+          description: Причина закриття запита(ів)
+          name: reason
+        ticket:
+          description: Запит для закриття
+          name: ticket
+        time:
+          description: Закрити всі запити, які були неактивними протягом
+            вказаного часу
+          name: time
+    help:
+      description: Показати меню допомоги
+      name: help
+      response:
+        commands: Команди
+        description: "**Використовуйте {command}, щоб створити запит і отримати підтримку.**"
+        links:
+          commands: Повний список команд
+          docs: Документація
+          feedback: Зворотній зв'язок
+          links: Корисні посилання
+          support: Підтримка
+        settings: Налаштування бота
+      title: Довідка
+    move:
+      description: Перемістити запит в іншу категорію
+      moved: 🗃️ {by} перемістив(ла) цей запит з **{from}** в **{to}**.
+      name: move
+      not_staff:
+        description: Тільки адміністратор може переміщувати запити.
+        title: ❌ Помилка
+      options:
+        category:
+          description: Категорія, в яку перемістити запит
+          name: category
+    new:
+      description: Створити новий запит
+      name: new
+      options:
+        references:
+          description: Номер пов'язаного запиту
+          name: references
+    priority:
+      description: Встановити пріоритет запитів
+      name: priority
+      not_staff:
+        description: Тільки адміністратор може змінювати пріоритет заявок.
+        title: ❌ Помилка
+      options:
+        priority:
+          choices:
+            HIGH: 🔴 Високий
+            LOW: 🟢 Низький
+            MEDIUM: 🟠 Середній
+          description: Пріоритет запиту
+          name: priority
+      success:
+        description: Пріоритет цього запиту встановлено на `{priority}`.
+        title: ✅ Пріоритет встановлено
+    release:
+      description: Звільнити (віддати) запит
+      name: release
+    remove:
+      description: Видалити учасника з запиту
+      name: remove
+      not_staff:
+        description: Тільки адміністратор може видаляти учасників з чужих
+          заявок.
+        title: ❌ Помилка
+      options:
+        member:
+          description: Учасник, якого треба видалити з запити
+          name: member
+        ticket:
+          description: запит, з якого треба видалити учасника
+          name: ticket
+      removed: ⬅️ {removed} було видалено {by}.
+      success:
+        description: "{member} було видалено з {ticket}."
+        title: ✅ Видалено
+    tag:
+      description: Використати тег
+      name: tag
+      options:
+        for:
+          description: Користувач, до якого застосувати тег
+          name: for
+        tag:
+          description: Назва тегу для використання
+          name: tag
+    tickets:
+      description: Перелічити власні або чужі запити
+      name: tickets
+      not_staff:
+        description: Тільки адміністратор може переглядати запити інших
+          користувачів.
+        title: ❌ Помилка
+      options:
+        member:
+          description: Користувач, запити якого потрібно переглянути
+          name: member
+      response:
+        description: Використовуйте {transcript}, щоб завантажити транскрипт
+          запиту.
+        fields:
+          closed:
+            name: Закриті запити
+            none:
+              other: "{user} не створював(ла) запитів."
+              own: |
+                Ви не створили жодного запиту.
+                Використайте {new}, щоб відкрити запит.
+          open:
+            name: Відкриті запити
+        title:
+          other: запити {displayName}
+          own: Ваші запити
+    topic:
+      description: Змінити тему запиту
+      name: topic
+    transcript:
+      description: Отримати транскрипт запиту
+      name: transcript
+      not_staff:
+        description: Тільки адміністрацтор може читати транскрипти запитів інших
+          користувачів.
+        title: ❌ Помилка
+      options:
+        member:
+          description: Користувач, для якого потрібно знайти запити
+          name: member
+        ticket:
+          description: Запит, транскрипт якого потрібно отримати
+          name: ticket
+    transfer:
+      description: Передати власника запиту іншому користувачеві
+      name: transfer
+      options:
+        member:
+          description: Користувач, якому потрібно передати власника
+          name: member
+      transferred: 📨 {user} передав(ла) цей запит {to}.
+      transferred_from: 📨 {user} передав(ла) цей запит від {from} до {to}.
+  user:
+    create:
+      name: Створити запит від користувача
+      not_staff:
+        description: Тільки адміністратор може відкривати запити від імені інших
+          користувачів.
+        title: ❌ Помилка
+      prompt:
+        description: Натисніть на кнопку нижче, щоб створити запит.
+        title: Будь ласка, створіть запит
+      sent:
+        description: "{user} було запросжено створити запит в **{category}**."
+        title: ✅ Запит надіслано
+dm:
+  closed:
+    fields:
+      closed:
+        name: Закрито в
+        value: "{timestamp} (після {duration})"
+      closed_by: Закрито користувачем
+      created: Створено в
+      feedback: Ваш відгук
+      reason: Закрито через
+      response: Час відповіді
+      ticket: Запит
+      topic: Тема
+    title: Ваш запит було закрито
+  confirm_open:
+    title: Хочете відкрити запит з наступною темою?
+log:
+  admin:
+    changes: Зміни
+    description:
+      joined: "{user} {verb} {targetType}"
+      target:
+        category: категорію
+        panel: панель
+        question: запитання
+        settings: налаштування
+        tag: тег
+    title:
+      joined: "{targetType} {verb}"
+      target:
+        category: Категорію
+        panel: Панель
+        question: Запитання
+        settings: Налаштування
+        tag: Тег
+    verb:
+      create: створено
+      delete: видалено
+      update: оновлено
+  message:
+    description: "{user} {verb} повідомлення"
+    message: Повідомлення
+    title: Повідомлення {verb}
+    verb:
+      delete: видалений
+      update: оновлений
+  ticket:
+    added: Додані учасники
+    description: "{user} {verb} запит"
+    removed: Видалені учасники
+    ticket: запит
+    title: запит {verb}
+    verb:
+      claim: прийнято
+      close: закрито
+      create: створено
+      unclaim: звільнено
+      update: оновлено
+menus:
+  category:
+    placeholder: Виберіть категорію запиту
+  guild:
+    placeholder: Виберіть сервер
+misc:
+  blocked:
+    description: Вам заборонено створювати запити.
+    title: ❌ Заблоковано
+  category_full:
+    description: |
+      Категорія досягла максимальної ємності.
+      Будь ласка, спробуйте пізніше.
+    title: ❌ Категорія заповнена
+  cooldown:
+    description: Будь ласка, зачекайте {time} перед створенням іншого запиту в
+      цій категорії.
+    title: ❌ Будь ласка, зачекайте
+  error:
+    description: |
+      Вибачте, сталася непередбачувана помилка.
+      Будь ласка, передайте цю інформацію адміністратору.
+    fields:
+      identifier: Ідентифікатор
+    title: ⚠️ Щось пішло не так
+  expired:
+    description: Ви не відповіли вчасно. Будь ласка, спробуйте ще раз.
+    title: ⏰ Термін вичерпано
+  expires_in: Закінчується через {time}
+  invalid_ticket:
+    description: Будь ласка, вкажіть дійсний запит.
+    title: ❌ Недійсний запит
+  member_limit:
+    description:
+    - Будь ласка, скористайтеся існуючим запитом або закрийте його перед
+      створенням нового.
+    - |
+      Будь ласка, закрийте запит перед створенням нового.
+      Використовуйте `/tickets`, щоб переглянути ваші існуючі запити.
+    title:
+    - ❌ У вас вже є запит
+    - ❌ У вас вже є %d відкритих заявок
+  missing_roles:
+    description: >-
+      У вас немає необхідних ролей для можливості створення запитів
+      в цій категорії.
+    title: ❌ Не та ролт
+  no_categories:
+    description: |-
+      Немає налаштованих категорій заявок.
+      Налаштуйте ваш сервер за адресою {url}.
+    title: ❌ Немає категорій заявок
+  not_ticket:
+    description: Ви можете використовувати цю команду тільки в запитах.
+    title: ❌ Це не канал запів
+  ratelimited:
+    description: Спробуйте ще раз через декілька секунд.
+    title: 🐢 Будь ласка, бовільніше
+  role_error:
+    description: Вибачте, операція не вдалася через невірну конфігурацію.
+    fields:
+      for_admins:
+        name: Для адміністраторів сервера
+        value: >
+          Було надано недійсного користувача або ролі, що зазвичай означає видалення
+          ролі співробітника.
+          [Натисніть тут]({url}) для інструкцій з усунення несправностей.
+    title: ⚠️ Щось пішло не так
+  unknown_category:
+    description: Будь ласка, спробуйте іншу категорію.
+    title: ❌ Такої категорії заявок не існує
+  update:
+    description: |
+      > [Переглянути `{version}` на GitHub]({github})
+      > [Журнал змін]({changelog})
+      > [Посібник з оновлення]({guide})
+    title: Доступне оновлення
+modals:
+  feedback:
+    comment:
+      label: Коментар
+      placeholder: Чи є у вас додаткові зауваження або відгуки?
+    rating:
+      label: Оцінка
+      placeholder: 1-5
+    title: Чи справилися ми?
+  topic:
+    label: Тема
+    placeholder: Що є предметом цієї заявки?
+ticket:
+  answers:
+    no_value: "*Немає відповіді*"
+  claimed: 🙌 {user} взяв цей запит на обробку.
+  close:
+    closed:
+      description: Цей канал буде видалено за кілька секунд…
+      title: ✅ Щапит закрито
+    forbidden:
+      description: У вас немає дозволу на закриття цього запиту.
+      title: ❌ Помилка
+    rejected: ✋ {user} відхилив закриття цього запиту.
+    staff_request:
+      archived: |2
+
+        Повідомлення в цьому каналі будуть збережені для подальшого розгляду.
+      description: |
+        {requestedBy} бажає закрити цей запит.
+        Натисніть "Прийняти", щоб закрити його зараз, або "Відхилити", якщо вам все ще потрібна допомога.
+      title: ❓ Чи можна закрити цей запит?
+    user_request:
+      title: ❓ {requestedBy} бажає закрити цей запит
+    wait_for_staff: ✋ Будь ласка, зачекайте на закриття цього запиту
+      адміністратором.
+    wait_for_user: ✋ Будь ласка, зачекайте на відповідь користувача.
+  closing_soon:
+    description: |
+      Цей запит буде закрито через неактивність <t:{timestamp}:R>.
+      Надішліть повідомлення, щоб скасувати закриття.
+    title: ⌛ Цей запит буде закрито незабаром
+  created:
+    description: "Ваш канал запиту було створено: {channel}."
+    title: ✅ Запит створено
+  edited:
+    description: Ваші зміни були збережені.
+    title: ✅ Запит оновлено
+  feedback: Дякуємо за ваш відгук.
+  inactive:
+    description: |
+      З відкриття цього каналу не було жодної активності з <t:{timestamp}:R>.
+      Продовжуйте діалог або {close} запит.
+    title: ⏰ Цей запит неактивний
+  offline:
+    description: У цей момент немає доступних адміністраторів, тому відповідь
+      може зайняти більше часу, ніж зазвичай.
+    title: 😴 Ми не в мережі
+  opening_message:
+    content: |
+      {staff}
+      {creator} створив(ла) новий запит
+    fields:
+      topic: Тема
+  references_message:
+    description: Посилання [на повідомлення]({url}), відправлене {timestamp} від
+      {author}.
+    title: ℹ️ Посилання
+  references_ticket:
+    description: "Цей запит пов'язаний з попередньою запитом:"
+    fields:
+      date: Створено о
+      number: Номер
+      topic: Тема
+    title: ℹ️ Посилання
+  released: ♻️ {user} відмовився(лась) від цього запиту.
+  working_hours:
+    next:
+      description: Ми повернемося о <t:{timestamp}:F> (<t:{timestamp}:R>), хоча
+        ви можете отримати відповідь раніше.
+      title: 🕗 Зараз ми не працюємо
+    today:
+      description: Ви можете отримати відповідь раніше, але ми починаємо
+        працювати лише о <t:{timestamp}:t> сьогодні (<t:{timestamp}:R>).
+      title: 🕗 Зараз ми не працюємо

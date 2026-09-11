@@ -1,0 +1,32 @@
+services:
+  mysql:
+    image: mysql:8
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: tickets
+      MYSQL_USER: tickets
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD:?Set MYSQL_PASSWORD in .env}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:?Set MYSQL_ROOT_PASSWORD in .env}
+    volumes:
+      - tickets-mysql:/var/lib/mysql
+  bot:
+    build: .
+    depends_on:
+      - mysql
+    restart: unless-stopped
+    ports:
+      - "8169:8169"
+    volumes:
+      - tickets-runtime:/home/container
+      - tickets-bot:/home/container/user
+    env_file: .env
+    environment:
+      DOCKER: "true"
+      DB_PROVIDER: mysql
+      DB_CONNECTION_URL: mysql://tickets:${MYSQL_PASSWORD}@mysql/tickets
+      HTTP_HOST: 0.0.0.0
+      HTTP_PORT: 8169
+volumes:
+  tickets-mysql:
+  tickets-bot:
+  tickets-runtime:

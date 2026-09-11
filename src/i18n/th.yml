@@ -1,0 +1,447 @@
+commands:
+  slash:
+    help:
+      response:
+        settings: การตั้งค่าบอท
+        commands: คำสั่ง
+        links:
+          support: สนับสนุน
+          docs: เอกสารคู่มือ
+          feedback: ข้อเสนอแนะ
+          links: ลิงก์ที่มีประโยชน์
+          commands: รายชื่อคำสั่งทั้งหมด
+        description: '**ใช้คำสั่ง {command} เพื่อสร้างห้องติดต่อและรับการช่วยเหลือ**'
+      name: หน้าต่างช่วยเหลือ
+      title: หน้าต่างช่วยเหลือ
+      description: แสดงเมนูช่วยเหลือ
+    close:
+      options:
+        reason:
+          name: เหตุผล
+          description: เหตุผลในการปิดห้องติดต่อ
+      description: ส่งคำขอให้ปิดห้องติดต่อ
+      name: ปิด
+      invalid_time:
+        title: ❌ ไม่ถูกต้อง
+        description: '`{input}` ไม่ใช่รูปแบบเวลาที่ถูกต้อง'
+    force-close:
+      options:
+        time:
+          name: เวลา
+          description:
+            ปิดห้องติดต่อทั้งหมดที่ไม่มีการเคลื่อนไหวมานานตามเวลาที่ระบุ
+        ticket:
+          name: ห้องติดต่อ
+          description: ห้องติดต่อที่จะปิด
+        category:
+          description: ปิดห้องติดต่อทั้งหมดในหมวดหมู่ที่ระบุ (ต้องใช้กับ `time`)
+          name: หมวดหมู่
+        reason:
+          description: เหตุผลในการปิดห้องติดต่อ
+          name: เหตุผล
+      confirmed_multiple:
+        description: ช่องนี้จะถูกลบในอีกไม่กี่วินาที
+        title:
+        - ✅ กำลังปิดห้องติดต่อ %d
+        - ✅ กำลังปิดห้องติดต่อ %d
+      name: บังคับปิด
+      not_staff:
+        description: ทีมงานเท่านั้นที่สามารถบังคับปิดห้องติดต่อได้
+        title: ❌ ข้อผิดพลาด
+      confirm_multiple:
+        description: "คุณกำลังจะปิด **{count}** ห้องติดต่อที่ไม่มีการเคลื่อนไหวมานานกว่า
+          `{time}`:\n{tickets}\n"
+        title: ❓ คุณแน่ใจแล้วหรือไม่?
+      closed_one:
+        description: ช่องนี้จะถูกลบในอีกไม่กี่วินาที
+        title: ✅ ปิดห้องติดต่อแล้ว
+      description: ปิดห้องติดต่อด้วยวิธีบังคับ
+      no_tickets:
+        description: ไม่มีห้องติดต่อที่เปิดและไม่มีการเคลื่อนไหวมานานกว่า
+          `{time}`
+        title: ❌ ไม่มีห้องติดต่อ
+    move:
+      not_staff:
+        description: ทีมงานเท่านั้นที่สามารถย้ายห้องติดต่อได้
+        title: ❌ ข้อผิดพลาด
+      name: ย้าย
+      options:
+        category:
+          description: หมวดหมู่ที่จะย้ายห้องติดต่อไป
+          name: หมวดหมู่
+      moved: 🗃️ {by} ย้ายห้องติดต่อนี้จาก **{from}** ไปยัง **{to}**
+      description: ย้ายห้องติดต่อไปยังหมวดหมู่อื่น
+    add:
+      success:
+        description: '{member} ได้ถูกเพิ่มเข้าไปใน {ticket}'
+        title: ✅ เพิ่มเรียบร้อย
+      options:
+        member:
+          name: สมาชิก
+          description: สมาชิกที่จะเพิ่มในห้องติดต่อ
+        ticket:
+          description: ห้องติดต่อที่จะเพิ่มสมาชิกเข้าไป
+          name: ห้องติดต่อ
+      not_staff:
+        description:
+          เฉพาะทีมงานเท่านั้นที่สามารถเพิ่มสมาชิกในห้องติดต่อของคนอื่นได้
+        title: ❌ ข้อผิดพลาด
+      added: ➡️ {added} ได้ถูกเพิ่มเข้ามาโดย {by}
+      description: เพิ่มสมาชิกในห้องติดต่อ
+      name: เพิ่ม
+    claim:
+      name: รับเรื่อง
+      not_staff:
+        description: ทีมงานเท่านั้นที่สามารถรับเรื่องห้องติดต่อได้
+        title: ❌ ข้อผิดพลาด
+      description: รับเรื่องของห้องติดต่อ
+    new:
+      description: สร้างห้องติดต่อใหม่
+      options:
+        references:
+          description: หมายเลขของห้องติดต่อที่เกี่ยวข้อง
+          name: ที่มา
+      name: ใหม่
+    tag:
+      options:
+        for:
+          name: สำหรับ
+          description: สมาชิกที่จะกำหนดเป้าหมายแท็กไป
+        tag:
+          description: ชื่อของแท็กที่จะใช้
+          name: แท็ก
+      description: ใช้แท็ก
+      name: แท็ก
+    priority:
+      options:
+        priority:
+          choices:
+            HIGH: 🔴 สูง
+            LOW: 🟢 ตํ่า
+            MEDIUM: 🟠 ปานกลาง
+          name: ความสำคัญ
+          description: ลำดับความสำคัญของห้องติดต่อ
+      success:
+        title: ✅ ลำดับความสำคัญ
+        description: ลำดับความสำคัญของห้องติดต่อนี้ได้รับการตั้งค่าเป็น
+          `{priority}`
+      name: ความสำคัญ
+      not_staff:
+        title: ❌ ข้อผิดพลาด
+        description:
+          มีเพียงทีมงานเท่านั้นที่สามารถเปลี่ยนลำดับความสำคัญของห้องติดต่อได้
+      description: กำหนดลำดับความสำคัญของห้องติดต่อ
+    transcript:
+      not_staff:
+        description:
+          มีเพียงทีมงานเท่านั้นที่สามารถอ่านสำเนาห้องติดต่อของผู้อื่นได้
+        title: ❌ ข้อผิดพลาด
+      options:
+        ticket:
+          name: ห้องติดต่อ
+          description: ห้องติดต่อเพื่อรับใบรับสำเนาของ
+        member:
+          description: สมาชิกที่ต้องการค้นหาห้องติดต่อ
+          name: สมาชิก
+      name: สำเนาประวัติ
+      description: รับสำเนาประวัติของห้องติดต่อ
+    tickets:
+      response:
+        fields:
+          closed:
+            name: ปิดห้องติดต่อแล้ว
+            none:
+              other: '{user} ยังไม่ได้เปิดห้องติดต่อเลย'
+              own: "คุณยังไม่ได้เปิดห้องติดต่อใดๆเลย\nใช้ {new} เพื่อเปิดห้องติดต่อ\n"
+          open:
+            name: เปิดห้องติดต่อ
+        title:
+          own: ห้องติดต่อของคุณ
+          other: ห้องติดต่อของ {displayName}
+        description: ใช้ {transcript} เพื่อดาวน์โหลดสำเนาของห้องติดต่อ
+      name: ห้องติดต่อ
+      options:
+        member:
+          description: สมาชิกรายการห้องติดต่อของ
+          name: สมาชิก
+      description: แสดงรายการห้องติดต่อของคุณเองหรือของคนอื่น
+      not_staff:
+        description: มีเพียงทีมงานเท่านั้นที่สามารถดูห้องติดต่อของผู้อื่นได้
+        title: ❌ ข้อผิดพลาด
+    release:
+      description: ยกเลิกการรับเรื่อง (ยกเลิกรับเรื่อง) ห้องติดต่อ
+      name: ยกเลิกการรับเรื่อง
+    remove:
+      name: นำออก
+      not_staff:
+        title: ❌ ข้อผิดพลาด
+        description:
+          มีเพียงทีมงานเท่านั้นที่สามารถลบสมาชิกออกจากห้องติดต่อของผู้อื่นได้
+      success:
+        description: '{member} ถูกลบออกจาก {ticket} แล้ว'
+        title: ✅ นำออกแล้ว
+      options:
+        member:
+          description: สมาชิกที่จะลบออกจากห้องติดต่อแล้ว
+          name: สมาชิก
+        ticket:
+          name: ห้องติดต่อ
+          description: ห้องติดต่อที่จะลบสมาชิกออกจาก
+      removed: ⬅️ {removed} ถูกลบออกโดย {by}
+      description: ลบสมาชิกออกจากห้องติดต่อ
+    transfer:
+      options:
+        member:
+          description: สมาชิกที่จะโอนสิทธิ์การเป็นเจ้าของให้
+          name: สมาชิก
+      transferred: 📨 {user} ได้โอนห้องติดต่อนี้ไปที่ {to} แล้ว
+      description: โอนสิทธิ์การเป็นเจ้าของห้องติดต่อให้กับสมาชิกรายอื่น
+      transferred_from: 📨 {user} ได้โอนห้องติดต่อนี้จาก {from} ไปยัง {to}
+      name: โอนสิทธิ์
+    topic:
+      description: เปลี่ยนหัวข้อของห้องติดต่อ
+      name: หัวข้อ
+  message:
+    pin:
+      not_pinnable:
+        description: "ไม่สามารถปักหมุดข้อความนี้ได้\nกรุณาเรียกให้ผู้ดูแลตรวจสอบสิทธิ์ของบอท\n"
+        title: ❌ ข้อผิดพลาด
+      not_ticket:
+        title: ❌ นี่ไม่ใช่ห้องติดต่อ
+        description: คุณสามารถปักหมุดข้อความได้เฉพาะในห้องติดต่อ
+      pinned:
+        title: ✅ ข้อความถูกปักหมุดแล้ว
+        description: ข้อความได้ถูกปักหมุดแล้ว
+      name: ปักหมุดข้อความ
+    create:
+      name: สร้างห้องติดต่อจากข้อความ
+  user:
+    create:
+      sent:
+        description: '{user} ได้รับเชิญให้สร้างห้องติดต่อใน **{category}**'
+        title: ✅ ส่งพร้อมท์
+      name: สร้างห้องติดต่อสำหรับสมาชิก
+      prompt:
+        title: กรุณาสร้างห้องติดต่อ
+        description: กดปุ่มด้านล่างเพื่อสร้างห้องติดต่อ
+      not_staff:
+        title: ❌ ข้อผิดพลาด
+        description:
+          มีเพียงทีมงานเท่านั้นที่สามารถเปิดห้องติดต่อให้สมาชิกคนอื่นได้
+buttons:
+  edit:
+    text: แก้ไข
+    emoji: ✏️
+  accept_close_request:
+    emoji: ✅
+    text: ยอมรับ
+  claim:
+    text: รับเรื่อง
+    emoji: 🙌
+  create:
+    text: สร้างห้องติดต่อ
+    emoji: 🎫
+  reject_close_request:
+    emoji: ✖️
+    text: ปฏิเสธ
+  confirm_open:
+    text: สร้างห้องติดต่อ
+    emoji: ✅
+  close:
+    emoji: ✖️
+    text: ปิด
+  cancel:
+    text: ยกเลิก
+    emoji: ➖
+  unclaim:
+    emoji: ♻️
+    text: ยกเลิกการรับเรื่อง
+  transcript:
+    emoji: 📄
+log:
+  admin:
+    title:
+      target:
+        panel: แผงควบคุม
+        category: หมวดหมู่
+        settings: การตั้งค่า
+        question: คำถาม
+        tag: แท็ก
+      joined: '{targetType} {verb}'
+    description:
+      target:
+        tag: แท็ก
+        question: คำถาม
+        settings: การตั้งค่า
+        panel: แผงควบคุม
+        category: หมวดหมู่
+      joined: '{user} {verb} {targetType}'
+    verb:
+      delete: ถูกลบ
+      update: อัปเดตแล้ว
+      create: ถูกสร้าง
+    changes: เปลี่ยน
+  message:
+    title: ข้อความ {verb}
+    message: ข้อความ
+    description: '{user} {verb} ข้อความ'
+    verb:
+      delete: ลบเรียบร้อย
+      update: อัปเดตแล้ว
+  ticket:
+    added: เพิ่มสมาชิกแล้ว
+    removed: สมาชิกที่ถูกลบออกแล้ว
+    verb:
+      create: สร้างเรียบร้อย
+      close: ปิดแล้ว
+      unclaim: ยกเลิกการรับเรื่องแล้ว
+      claim: รับเรื่องแล้ว
+      update: อัปเดตแล้ว
+    ticket: ห้องติดต่อ
+    title: ห้องติดต่อ {verb}
+    description: '{user} {verb} ห้องติดต่อ'
+dm:
+  closed:
+    fields:
+      closed:
+        value: '{timestamp} (หลังจาก {duration})'
+        name: ปิดเมื่อ
+      topic: หัวข้อ
+      ticket: ห้องติดต่อ
+      created: สร้างเมื่อ
+      response: เวลาตอบสนอง
+      reason: ปิดเพราะ
+      closed_by: ปิดโดย
+      feedback: ความคิดเห็นของคุณ
+    title: ห้องติดต่อของคุณถูกปิดแล้ว
+  confirm_open:
+    title: คุณต้องการเปิดห้องติดต่อในหัวข้อต่อไปนี้หรือไม่?
+misc:
+  not_ticket:
+    title: ❌ นี่ไม่ใช่ห้องติดต่อ
+    description: คุณสามารถใช้คำสั่งนี้ในห้องติดต่อเท่านั้น
+  ratelimited:
+    title: 🐢 กรุณาช้าลงหน่อย
+    description: โปรดลองอีกครั้งในอีกไม่กี่วินาที
+  invalid_ticket:
+    title: ❌ ห้องติดต่อไม่ถูกต้อง
+    description: โปรดระบุห้องติดต่อที่ถูกต้อง
+  unknown_category:
+    title: ❌ ไม่มีหมวดหมู่ห้องติดต่อนั้นอยู่
+    description: โปรดลองหมวดหมู่อื่น
+  category_full:
+    description: "หมวดหมู่นี้มีความจุสูงสุดแล้ว\nกรุณาลองใหม่อีกครั้งในภายหลัง\n"
+    title: ❌ หมวดหมู่เต็ม
+  member_limit:
+    description:
+    - โปรดใช้ห้องติดต่อที่มีอยู่หรือปิดก่อนจะสร้างห้องติดต่อใหม่
+    - "โปรดปิดห้องติดต่อก่อนสร้างห้องติดต่อใหม่\nใช้ `/tickets` เพื่อดูห้องติดต่อที่มีอยู่\n"
+    title:
+    - ❌ คุณมีห้องติดต่ออยู่แล้ว
+    - ❌ คุณมีห้องติดต่อที่เปิดอยู่ %d ห้อง
+  error:
+    fields:
+      identifier: ตัวระบุ
+    title: ⚠️ มีบางอย่างผิดพลาด
+    description: "ขออภัย เกิดข้อผิดพลาดที่ไม่คาดคิด\nกรุณาให้ข้อมูลนี้แก่ผู้ดูแล\n"
+  cooldown:
+    description: โปรดรอ {time} ก่อนที่จะสร้างห้องติดต่อใหม่ในหมวดหมู่นี้
+    title: ❌ กรุณารอสักครู่
+  blocked:
+    title: ❌ บล็อคแล้ว
+    description: คุณไม่ได้รับอนุญาตให้สร้างห้องติดต่อ
+  expires_in: หมดเวลาใน {time}
+  update:
+    title: มีการอัปเดตให้ใช้งาน
+    description: "> [ดู `{version}` บน GitHub]({github})\n> [บันทึกการเปลี่ยนแปลง]({changelog})\n\
+      \ > [คู่มือการอัปเดต]({guide})\n"
+  expired:
+    title: ⏰ หมดอายุเวลา
+    description: คุณตอบกลับไม่ทันในเวลาที่กำหนด กรุณาลองอีกครั้ง
+  missing_roles:
+    title: ❌ บทบาทไม่เพียงพอ
+    description: คุณไม่มีบทบาทที่จำเป็นในการสร้างห้องติดต่อในหมวดหมู่นี้
+  no_categories:
+    title: ❌ ไม่มีหมวดหมู่ห้องติดต่อ
+    description: ไม่มีการกำหนดค่าหมวดหมู่ห้องติดต่อ
+ticket:
+  close:
+    closed:
+      description: ช่องนี้จะถูกลบภายในไม่กี่วินาที…
+      title: ✅ ปิดห้องติดต่อแล้ว
+    forbidden:
+      title: ❌ ข้อผิดพลาด
+      description: คุณไม่ได้รับอนุญาตให้ปิดห้องติดต่อนี้
+    rejected: ✋ {user} ปฏิเสธคำขอปิดห้องติดต่อนี้
+    wait_for_staff: ✋ กรุณารอทีมงานปิดห้องติดต่อนี้
+    user_request:
+      title: ❓ {requestedBy} ต้องการปิดห้องติดต่อนี้
+    staff_request:
+      title: ❓ ห้องติดต่อนี้ปิดได้ไหม?
+      archived: "\nข้อความในช่องนี้จะถูกเก็บถาวรเพื่อใช้อ้างอิงในอนาคต\n"
+      description: "{requestedBy} ต้องการปิดห้องติดต่อนี้\nคลิก \"ยอมรับ\" เพื่อปิดทันที
+        หรือ \"ปฏิเสธ\" หากคุณยังคงต้องการความช่วยเหลือ\n"
+    wait_for_user: ✋ โปรดรอให้ผู้ใช้ตอบกลับ
+  answers:
+    no_value: '*ไม่มีการตอบสนอง*'
+  claimed: 🙌 {user} ได้รับเรื่องห้องติดต่อนี้แล้ว
+  working_hours:
+    today:
+      description: คุณอาจได้รับการตอบกลับมาก่อน แต่เราจะไม่เริ่มทำงานจนกว่าจะ
+        <t:{timestamp}:t> วันนี้ (<t:{timestamp}:R>)
+      title: 🕗 เราไม่ได้ทำงานในขณะนี้
+    next:
+      title: 🕗 เราไม่ได้ทำงานในขณะนี้
+      description: เราจะกลับมาอีกครั้งในเวลา <t:{timestamp}:F>
+        (<t:{timestamp}:R>) แม้ว่าคุณอาจได้รับการตอบกลับก่อนเวลาดังกล่าวก็ตาม
+  created:
+    description: 'ช่องห้องติดต่อของคุณถูกสร้างขึ้นแล้ว: {channel}'
+    title: ✅ สร้างห้องติดต่อแล้ว
+  offline:
+    title: 😴 เราไม่ได้ออนไลน์
+    description: ขณะนี้ไม่มีทีมงานว่าง ดังนั้นอาจใช้เวลานานกว่าปกติในการตอบกลับ
+  edited:
+    description: การเปลี่ยนแปลงของคุณได้รับการบันทึกแล้ว
+    title: ✅ อัพเดตห้องติดต่อแล้ว
+  released: ♻️ {user} ได้ยกเลิกการรับเรื่องห้องติดต่อนี้แล้ว
+  references_message:
+    title: ℹ️ อ้างอิง
+    description: ข้อมูลอ้างอิง [a message]({url}) ส่งเมื่อ {timestamp} โดย
+      {author}
+  references_ticket:
+    description: 'ห้องติดต่อนี้เกี่ยวข้องกับห้องติดต่อก่อนหน้า:'
+    title: ℹ️ อ้างอิง
+    fields:
+      date: สร้างเมื่อ
+      number: หมายเลข
+      topic: หัวข้อ
+  opening_message:
+    fields:
+      topic: หัวข้อ
+    content: "{staff}\n{creator} ได้สร้างห้องติดต่อใหม่แล้ว\n"
+  closing_soon:
+    title: ⌛ ตั๋วนี้จะถูกปิดในเร็วๆ นี้
+    description: "ห้องติดต่อนี้จะถูกปิดเนื่องจากไม่มีการใช้ในอีก <t:{timestamp}:R>\n\
+      ส่งข้อความเพื่อยกเลิกการทำงานอัตโนมัตินี้\n"
+  inactive:
+    title: ⏰ ห้องติดต่อนี้ไม่มีการเคลื่อนไหว
+    description: "ไม่มีการเคลื่อนไหวใดๆ ในช่องนี้ตั้งแต่ <t:{timestamp}:R>\nโปรดสนทนาต่อหรือ
+      {close} ห้องติดต่อ\n"
+  feedback: ขอบคุณสำหรับความคิดเห็นของคุณ
+modals:
+  feedback:
+    comment:
+      label: ความคิดเห็น
+      placeholder: คุณมีข้อเสนอแนะเพิ่มเติมหรือไม่?
+    rating:
+      label: การให้คะแนน
+      placeholder: 1-5
+    title: เราบริการได้ดีไหม?
+  topic:
+    label: หัวข้อ
+    placeholder: ห้องติดต่อนี้เกี่ยวกับอะไร?
+menus:
+  category:
+    placeholder: เลือกหมวดหมู่ห้องติดต่อ
+  guild:
+    placeholder: เลือกเซิร์ฟเวอร์
