@@ -36,10 +36,12 @@ RUN apk add --no-cache ca-certificates curl git openssl libc6-compat \
 
 WORKDIR /app
 COPY --chown=container:container package.json package-lock.json LICENSE NOTICE.md ./
-RUN npm ci --omit=dev --ignore-scripts \
-    && node node_modules/@prisma/engines/scripts/postinstall.js
-
 COPY --chown=container:container db ./db
+RUN npm ci --omit=dev --ignore-scripts \
+    && node node_modules/@prisma/engines/scripts/postinstall.js \
+    && DB_CONNECTION_URL=file:/tmp/galitubetickets-build.db npx prisma generate --schema /app/db/sqlite/schema.prisma \
+    && rm -f /tmp/galitubetickets-build.db
+
 COPY --chown=container:container scripts ./scripts
 COPY --chown=container:container src ./src
 COPY --from=builder --chown=container:container /app/web ./web
