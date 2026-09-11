@@ -15,13 +15,6 @@ RUN apt-get update && apt-get install -y --no-install-recommends git ca-certific
     && rm -rf /var/lib/apt/lists/* \
     && node --version \
     && npm --version
-COPY package.json package-lock.json ./
-COPY LICENSE NOTICE.md ./
-RUN npm ci --omit=dev --ignore-scripts
-
-COPY db ./db
-COPY scripts ./scripts
-COPY src ./src
 COPY web/package.json web/package-lock.json ./web/
 COPY web/src ./web/src
 COPY web/static ./web/static
@@ -42,7 +35,14 @@ RUN apk add --no-cache ca-certificates curl git openssl libc6-compat \
     && chown -R container:container /home/container
 
 WORKDIR /app
-COPY --from=builder --chown=container:container /app /app
+COPY --chown=container:container package.json package-lock.json LICENSE NOTICE.md ./
+RUN npm ci --omit=dev --ignore-scripts \
+    && node node_modules/@prisma/engines/scripts/postinstall.js
+
+COPY --chown=container:container db ./db
+COPY --chown=container:container scripts ./scripts
+COPY --chown=container:container src ./src
+COPY --from=builder --chown=container:container /app/web ./web
 RUN chmod 755 /app/scripts/start.sh \
     && rm -rf /app/user /app/logs /app/.env /app/node_modules/.prisma \
     && ln -s /home/container/user /app/user \
