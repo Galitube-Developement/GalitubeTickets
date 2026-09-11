@@ -10,6 +10,7 @@ services:
     volumes:
       - tickets-mysql:/var/lib/mysql
   bot:
+    image: ghcr.io/galitube-developement/galitubetickets:latest
     build: .
     depends_on:
       - mysql
@@ -17,8 +18,8 @@ services:
     ports:
       - "8169:8169"
     volumes:
-      - tickets-runtime:/home/container
       - tickets-bot:/home/container/user
+      - tickets-logs:/home/container/logs
     env_file: .env
     environment:
       DOCKER: "true"
@@ -29,4 +30,4 @@ services:
 volumes:
   tickets-mysql:
   tickets-bot:
-  tickets-runtime:
+  tickets-logs:

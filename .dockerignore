@@ -4,8 +4,11 @@
 !db
 !scripts
 !src
-!user
 # and these files
 !.npmrc
+!LICENSE
+!NOTICE.md
 !package.json
-!bun.lock
+!package-lock.json
+!web
+!web/**

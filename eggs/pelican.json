@@ -11,7 +11,8 @@
 	"description": "Galitube Hosting ticket bot with startup updates from Galitube-Developement/GalitubeTickets.",
 	"features": null,
 	"docker_images": {
-		"Galitube main": "ghcr.io/galitube-developement/galitubetickets:main"
+		"GalitubeTickets Latest": "ghcr.io/galitube-developement/galitubetickets:latest",
+		"GalitubeTickets Main": "ghcr.io/galitube-developement/galitubetickets:main"
 	},
 	"file_denylist": [],
 	"startup": "/app/scripts/start.sh",
@@ -88,7 +89,7 @@
 		},
 		{
 			"name": "Owner IDs",
-			"description": "Comma-separated list of the bot owners' Discord IDs. The default is that of the bot developer and is recommended to leave in if you want them to be able to debug issues for you.",
+			"description": "Optional comma-separated Discord user IDs with global bot-administrator access. Leave empty unless you explicitly need this.",
 			"env_variable": "SUPER",
 			"default_value": "",
 			"user_viewable": true,

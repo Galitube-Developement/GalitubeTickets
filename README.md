@@ -53,7 +53,7 @@ Unterstützt werden Button- und Auswahlmenü-Panels dieses Bots. Der Bot benöti
 
 ## Automatische Updates
 
-Bei `npm start`, `node .` und dem Container-Start wird **vor Discord-Login** der `main`-Branch von **Galitube-Developement/GalitubeTickets** geprüft. Neue Commits werden per Fast-Forward übernommen; Versionsnummern oder GitHub Releases sind dafür nicht erforderlich.
+Bei `npm start` und `node .` wird **vor Discord-Login** der `main`-Branch von **Galitube-Developement/GalitubeTickets** geprüft. Neue Commits werden per Fast-Forward übernommen; Versionsnummern oder GitHub Releases sind dafür nicht erforderlich. Das unveränderliche Docker-Image führt dagegen genau den beim Image-Build enthaltenen Quellstand aus; für Updates wird ein neues Image gepullt und der Container neu erstellt.
 
 Danach installiert der Bot die gesperrten Abhängigkeiten, baut die Web-Oberfläche, generiert den Prisma-Client und führt Datenbankmigrationen aus. Erst nach Erfolg startet ein frischer Prozess mit dem aktualisierten Code. Die bisherigen wöchentlichen Update-Prüfungen bleiben bestehen und weisen auf einen nötigen Neustart hin.
 
@@ -69,16 +69,24 @@ Neue Änderungen müssen zunächst in diesem Repository auf `main` veröffentlic
 
 ## Docker / Pterodactyl / Pelican
 
-Das Dockerfile enthält Node.js und Git. Beim ersten Start wird das Galitube-Repository nach `/home/container/app` geklont und installiert. Das dauert länger als spätere Starts. Der gesamte Laufzeitordner muss dauerhaft gespeichert werden; Benutzerdateien liegen in `/home/container/user`.
+Jedes Image enthält den Quellstand dieses Repositories unter `/app`; es wird beim Start kein Upstream-Repository geklont oder kopiert. `/home/container/user` enthält persistente Benutzerdaten (bei SQLite auch `database.db`), `/home/container/logs` die persistente Protokollausgabe. Das Startskript bereitet zuerst die Umgebung vor, wählt das Prisma-Schema für MySQL, PostgreSQL oder SQLite, führt `prisma generate` und `prisma migrate deploy` aus und startet anschließend den Bot.
 
-Für eine neue lokale Docker-Installation zuerst `.env` wie oben anlegen. Mit der mitgelieferten Compose-Konfiguration wird MySQL verwendet: die MySQL-Zugangsdaten in `.env` setzen und dieselben Daten für `DB_CONNECTION_URL` verwenden. Danach:
+Lokal bauen:
+
+```sh
+docker build -t galitubetickets .
+```
+
+Das veröffentlichte Image ist `ghcr.io/galitube-developement/galitubetickets:latest`. `latest` kennzeichnet eine stabile Release-Version, `main` den aktuellen Stand des Standard-Branches. Ein Release wie `v4.1.0` erhält zusätzlich die Tags `4.1.0`, `4.1` und `4`; CI erzeugt außerdem einen unveränderlichen Kurz-Commit-Tag wie `sha-abcdef1`.
+
+Für eine neue lokale Compose-Installation zuerst `.env` wie oben anlegen. Mindestens erforderlich sind `DISCORD_TOKEN`, `DISCORD_SECRET`, ein dauerhaft gesicherter `ENCRYPTION_KEY`, `DB_PROVIDER` und bei MySQL/PostgreSQL `DB_CONNECTION_URL`. Mit der mitgelieferten Compose-Konfiguration wird MySQL verwendet; zusätzlich müssen `MYSQL_PASSWORD` und `MYSQL_ROOT_PASSWORD` in `.env` gesetzt sein:
 
 ```sh
 docker compose up -d --build
 docker compose logs -f bot
 ```
 
-Bei bestehenden Installationen Datenbankanbieter, Zugangsdaten und Datenvolumes beibehalten. Alte Container mit einem nicht als Git-Checkout angelegten `/home/container/app` werden nicht gelöscht: diesen Ordner zuerst sichern und aus dem Weg verschieben. Der Start nennt diesen Fall ausdrücklich. Die Egg-Dateien verweisen auf das Galitube-Image; dieses muss zuerst von diesem Repo gebaut/veröffentlicht werden.
+Für Pterodactyl und Pelican die jeweilige Egg-Datei aus `eggs/` importieren und **GalitubeTickets Latest** oder **GalitubeTickets Main** auswählen. Beide starten `/app/scripts/start.sh` mit `PTERODACTYL=true`; Datenbank- und übrige Umgebungsvariablen bleiben konfigurierbar. `SUPER` ist absichtlich leer: nur bei bewusst benötigten globalen Rechten eigene Discord-IDs eintragen.
 
 ## Entwicklung und Prüfung
 
