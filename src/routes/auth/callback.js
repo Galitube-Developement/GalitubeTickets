@@ -70,7 +70,7 @@ module.exports.get = () => ({
 			httpOnly: true,
 			maxAge: data.expires_in,
 			path: '/',
-			sameSite: 'Strict',
+			sameSite: 'Lax',
 			secure: process.env.HTTP_EXTERNAL?.startsWith('https://'),
 		});
 		res.clearCookie('oauth2-state', { path: '/auth' });
