@@ -38,7 +38,7 @@ function getPresence(client) {
 	};
 }
 
-function requireBotOwner(req, res) {
+async function requireBotOwner(req, res) {
 	const { client } = req.routeOptions.config;
 	if (!client.supers.includes(req.user.id)) {
 		return res.code(403).send({ message: 'Only configured bot owners can change the bot presence.' });
