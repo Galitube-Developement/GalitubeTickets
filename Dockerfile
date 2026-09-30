@@ -54,6 +54,7 @@ RUN chmod 755 /app/scripts/start.sh \
     && ln -s /home/container/.prisma /app/node_modules/.prisma
 
 ENV NODE_ENV=production \
+    NODE_PATH=/app/node_modules \
     HTTP_HOST=0.0.0.0 \
     DOCKER=true \
     AUTO_UPDATE=false \
