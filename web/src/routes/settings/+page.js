@@ -7,13 +7,16 @@ export async function load({ fetch }) {
 	]);
 	let guilds = [];
 	let guildsError = '';
-	if (guildsResponse?.ok) {
-		const body = await guildsResponse.json();
-		if (Array.isArray(body)) guilds = body;
-		else guildsError = body?.message || 'Could not load your server list.';
+	if (!guildsResponse?.ok) {
+		guildsError = 'Could not load your server list. Please try again.';
 	} else {
-		const body = await guildsResponse?.json().catch(() => null);
-		guildsError = body?.message || 'Could not load your server list. Please try again.';
+		try {
+			const body = await guildsResponse.json();
+			if (Array.isArray(body)) guilds = body;
+			else guildsError = body?.message || 'Could not load your server list.';
+		} catch {
+			guildsError = 'Could not read your server list. Please try again.';
+		}
 	}
 	return {
 		canManageBot: botSettingsResponse?.ok ?? false,
