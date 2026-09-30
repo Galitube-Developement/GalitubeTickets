@@ -94,7 +94,11 @@ const http = require('./http');
 
 // the `user` directory may or may not exist depending on if sqlite is being used.
 // copy any files that don't already exist
-fs.cpSync(path.join(__dirname, 'user'), './user', {
+const userDirectory = path.resolve('./user');
+const userDestination = fs.existsSync(userDirectory)
+	? fs.realpathSync(userDirectory)
+	: userDirectory;
+fs.cpSync(path.join(__dirname, 'user'), userDestination, {
 	force: false,
 	recursive: true,
 });
