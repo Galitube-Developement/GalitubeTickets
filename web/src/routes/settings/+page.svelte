@@ -19,6 +19,22 @@
 	const formatter = new Intl.NumberFormat();
 </script>
 
+{#if data.canManageBot}
+	<a
+		href={`${base}/settings/bot`}
+		class="mb-8 flex items-center gap-4 rounded-xl bg-white p-4 shadow-sm transition hover:shadow-md dark:bg-slate-700"
+	>
+		<div class="flex h-12 w-12 items-center justify-center rounded-full bg-blurple text-xl text-white">
+			<i class="fa-solid fa-gamepad"></i>
+		</div>
+		<div>
+			<h2 class="text-lg font-semibold">Bot presence</h2>
+			<p class="text-sm text-gray-500 dark:text-slate-400">Manage the bot's playing rotation</p>
+		</div>
+		<i class="fa-solid fa-chevron-right ml-auto text-gray-400"></i>
+	</a>
+{/if}
+
 <div class="grid grid-cols-1 gap-12 md:grid-cols-2">
 	<div class="text-center">
 		<div class="grid grid-cols-1 gap-8">

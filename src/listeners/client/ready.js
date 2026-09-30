@@ -3,11 +3,10 @@ const ms = require('ms');
 const sync = require('../../lib/sync');
 const checkForUpdates = require('../../lib/updates');
 const {
-	getAverageTimes,
-	getAverageRating,
 	sendToHouston,
 } = require('../../lib/stats');
 const handleStaleTickets = require('../../lib/stale');
+const createPresenceUpdater = require('../../lib/presence');
 
 module.exports = class extends Listener {
 	constructor(client, options) {
@@ -50,59 +49,8 @@ module.exports = class extends Listener {
 		await client.application.commands.fetch();
 
 		// presence/activity
-		if (client.config.presence.activities?.length > 0) {
-			let next = 0;
-			const setPresence = async () => {
-				client.log.verbose.cron('Updating presence');
-				const cacheKey = 'cache/presence';
-				let cached = await client.keyv.get(cacheKey);
-				if (!cached) {
-					const tickets = await client.prisma.ticket.findMany({
-						select: {
-							closedAt: true,
-							createdAt: true,
-							feedback: { select: { rating: true } },
-							firstResponseAt: true,
-						},
-					});
-					const closedTickets = tickets.filter(t => t.closedAt);
-					const closedTicketsWithResponse = closedTickets.filter(t => t.firstResponseAt);
-					const {
-						avgResolutionTime,
-						avgResponseTime,
-					} = await getAverageTimes(closedTicketsWithResponse);
-					const avgRating = await getAverageRating(closedTickets);
-
-					cached = {
-						avgRating: avgRating.toFixed(1),
-						avgResolutionTime: ms(avgResolutionTime),
-						avgResponseTime: ms(avgResponseTime),
-						guilds: client.guilds.cache.size,
-						openTickets: tickets.length - closedTickets.length,
-						totalTickets: tickets.length,
-					};
-					await client.keyv.set(cacheKey, cached, ms('15m'));
-				}
-				const activity = { ...client.config.presence.activities[next] };
-				activity.name = activity.name
-					.replace(/{+avgResolutionTime}+/gi, cached.avgResolutionTime)
-					.replace(/{+avgResponseTime}+/gi, cached.avgResponseTime)
-					.replace(/{+avgRating}+/gi, cached.avgRating)
-					.replace(/{+guilds}+/gi, cached.guilds)
-					.replace(/{+openTickets}+/gi, cached.openTickets)
-					.replace(/{+totalTickets}+/gi, cached.totalTickets);
-				client.user.setPresence({
-					activities: [activity],
-					status: client.config.presence.status,
-				});
-				next++;
-				if (next === client.config.presence.activities.length) next = 0;
-			};
-			setPresence();
-			if (client.config.presence.activities.length > 1) setInterval(() => setPresence(), client.config.presence.interval * 1000);
-		} else {
-			client.log.info('Presence activities are disabled');
-		}
+		client.updatePresence = createPresenceUpdater(client);
+		await client.updatePresence();
 
 		// stats posting
 		if (client.config.stats && process.env.STATS_ENDPOINT) {
