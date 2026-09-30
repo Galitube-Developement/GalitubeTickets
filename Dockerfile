@@ -62,7 +62,6 @@ ENV NODE_ENV=production \
     PRISMA_SCHEMA_PATH=/app/prisma/schema.prisma \
     PRISMA_GENERATE_SKIP_AUTOINSTALL=true
 
-VOLUME ["/home/container/user", "/home/container/logs"]
 USER container
 ENTRYPOINT ["/app/scripts/start.sh"]
 HEALTHCHECK --interval=30s --timeout=5s --start-period=600s CMD curl -fsS "http://localhost:${HTTP_PORT:-8169}/status" || exit 1
